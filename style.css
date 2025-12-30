@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: #ffffff;
+  }
+  
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* KIRI */
+  .left {
+    width: 40%;
+    padding: 40px;
+    background: #fff;
+  }
+  
+  .profile-img {
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 30px;
+  }
+  
+  .left h1 {
+    font-size: 34px;
+  }
+  
+  .left h1 span {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  .role {
+    margin: 15px 0 30px;
+    font-size: 18px;
+  }
+  
+  .btn {
+    padding: 12px 28px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .btn.dark {
+    background: black;
+    color: white;
+  }
+  
+  /* KANAN */
+  .right {
+    width: 60%;
+    background: #cfe5ff;
+    padding: 60px;
+  }
+  
+  .right h2 {
+    font-size: 32px;
+  }
+  
+  .right hr {
+    width: 80px;
+    border: 1px solid black;
+    margin: 15px 0 30px;
+  }
+  
+  .right p {
+    max-width: 520px;
+    line-height: 1.7;
+    font-size: 16px;
+  }
+  
+  .buttons {
+    margin-top: 40px;
+  }
+  
+  .btn.outline {
+    border: 1px solid black;
+    margin-right: 15px;
+    color: black;
+  }
+  
+  .social {
+    margin-top: 60px;
+  }
+  
+  .social a {
+    font-size: 22px;
+    color: black;
+    margin-right: 18px;
+  }
+  
+  /* RESPONSIVE (HP) */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .left, .right {
+      width: 100%;
+    }
+  
+    .right {
+      padding: 40px 30px;
+    }
+  
+    .left {
+      text-align: center;
+    }
+  
+    .profile-img {
+      margin: 0 auto 20px;
+    }
+  }
+  

@@ -3,73 +3,448 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portofolio GIlang</title>
+  <title>Gilang Ferdian Saputra — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ec;
+      --red: #d63030;
+      --red-dim: #8c1a1a;
+      --grey: #2a2a2a;
+      --muted: #888;
+      --border: rgba(245,242,236,0.1);
+    }
 
-  <link rel="stylesheet" href="style.css"/>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* ── BG GLOW ── */
+    .bg-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(214,48,48,0.12) 0%, transparent 70%);
+      top: -100px;
+      left: -100px;
+      pointer-events: none;
+      animation: floatGlow 8s ease-in-out infinite alternate;
+    }
+    @keyframes floatGlow {
+      from { transform: translate(0,0); }
+      to   { transform: translate(60px, 80px); }
+    }
+
+    /* ── LAYOUT ── */
+    .site-wrapper {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 48px 40px;
+      border-right: 1px solid var(--border);
+      background: linear-gradient(160deg, #111 0%, #0a0a0a 100%);
+      overflow: hidden;
+    }
+
+    .left::after {
+      content: 'GFS';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 200px;
+      color: rgba(214,48,48,0.04);
+      position: absolute;
+      bottom: -30px;
+      left: -10px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .profile-wrap {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin-bottom: 32px;
+    }
+    .profile-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(var(--red) 0deg, transparent 120deg, var(--red) 240deg, transparent 360deg);
+      animation: spinRing 6s linear infinite;
+    }
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+    .profile-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: var(--black);
+    }
+
+    .profile-img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .name-block { position: relative; z-index: 1; }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 1px;
+      line-height: 1.05;
+      color: var(--white);
+    }
+    h1 span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .role {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin: 12px 0 28px;
+    }
+
+    .btn-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 12px 24px;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .btn-email::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    }
+    .btn-email:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(214,48,48,0.4); }
+
+    /* ── RIGHT PANEL ── */
+    .right {
+      padding: 80px 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+    }
+
+    /* ── SECTIONS ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      letter-spacing: 1px;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--red);
+      margin-bottom: 28px;
+    }
+
+    .about-text {
+      font-size: 17px;
+      line-height: 1.8;
+      color: rgba(245,242,236,0.75);
+      font-weight: 300;
+      max-width: 520px;
+    }
+
+    /* ── CTA BUTTONS ── */
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border: 1px solid var(--border);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s, border-color 0.3s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn-outline::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+    .btn-outline:hover { border-color: var(--red); }
+    .btn-outline:hover::before { transform: scaleX(1); }
+
+    /* ── SOCIAL ── */
+    .social-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 40px;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .social-link:hover {
+      color: var(--white);
+      border-color: var(--red);
+      background: rgba(214,48,48,0.15);
+      transform: translateY(-3px);
+    }
+
+    /* ── SKILLS SECTION ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .skill-chip {
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--muted);
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s, border-color 0.3s;
+      cursor: default;
+    }
+    .skill-chip::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .skill-chip:hover { color: var(--white); border-color: rgba(214,48,48,0.4); }
+    .skill-chip:hover::before { transform: scaleX(1); }
+
+    /* ── FOOTER LINE ── */
+    .footer-line {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ── FADE IN ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+    .fade-up:nth-child(1) { animation-delay: 0.1s; }
+    .fade-up:nth-child(2) { animation-delay: 0.2s; }
+    .fade-up:nth-child(3) { animation-delay: 0.3s; }
+    .fade-up:nth-child(4) { animation-delay: 0.4s; }
+    .fade-up:nth-child(5) { animation-delay: 0.5s; }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .site-wrapper { grid-template-columns: 1fr; }
+      .left {
+        position: relative;
+        height: auto;
+        padding: 48px 32px 40px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .right { padding: 48px 32px; gap: 56px; }
+      .section-title { font-size: 40px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
+<div class="bg-glow"></div>
 
-  <!-- KIRI -->
-  <div class="left">
-    <img src="20251230_162012.png" alt="Foto Profil" class="profile-img"/>
+<div class="site-wrapper">
 
-    <h1>Gilang Ferdian Saputra <span>(he/him)</span></h1>
-    <p class="role">Administrasi & Data Support</p>
-
-    <a href="mailto:gilangwork12@gmail.com" class="btn dark">Email Saya</a>
-  </div>
-
-  <!-- KANAN -->
-  <div class="right">
-    <h2>Tentang Saya</h2>
-    <hr>
-
-    <p>
-      Saya adalah pribadi yang menghargai proses, tanggung jawab, dan konsistensi dalam bekerja. Saya percaya bahwa setiap pengalaman adalah bagian dari pembelajaran untuk terus berkembang.
-    </p>
-
-    <div class="buttons">
-  <a href="CVGILANG.pdf" class="btn outline" target="_blank">
-    Resume
-  </a>
-  <a href="#" class="btn outline">
-    Portfolio
-  </a>
-</div>
-
-
-
-    <div class="social">
-      <a href="https://instagram.com/gilang.ef.s" target="_blank">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://github.com/https3231" target="_blank">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://facebook.com/Gilang Ferdian Saputra" target="_blank">
-        <i class="fab fa-facebook"></i>
-      </a>
-      <a href="https://linkedin.com/in/Gilang fs" target="_blank">
-        <i class="fab fa-linkedin"></i>
-      </a>
+  <!-- ── LEFT PANEL ── -->
+  <aside class="left">
+    <div class="profile-wrap fade-up">
+      <img src="20251230_162012.png" alt="Gilang Ferdian Saputra" class="profile-img"/>
     </div>
 
-  </div>
+    <div class="name-block">
+      <div class="fade-up" style="animation-delay:0.15s">
+        <p class="role">Administrasi &amp; Data Support</p>
+        <h1>Gilang Ferdian Saputra <span>he / him</span></h1>
+      </div>
+
+      <div class="fade-up" style="animation-delay:0.25s; margin-top:28px;">
+        <a href="mailto:gilangwork12@gmail.com" class="btn-email">
+          <i class="fa fa-envelope" style="font-size:12px;"></i>
+          Email Saya
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── RIGHT PANEL ── -->
+  <main class="right">
+
+    <!-- ABOUT -->
+    <section>
+      <p class="section-label fade-up">— Profil</p>
+      <h2 class="section-title fade-up">Tentang<br>Saya</h2>
+      <div class="divider fade-up"></div>
+      <p class="about-text fade-up">
+        Saya adalah pribadi yang menghargai proses, tanggung jawab, dan konsistensi dalam bekerja.
+        Saya percaya bahwa setiap pengalaman adalah bagian dari pembelajaran untuk terus berkembang.
+      </p>
+
+      <div class="cta-row fade-up">
+        <a href="CVGILANG.pdf" class="btn-outline" target="_blank">
+          <i class="fa fa-file-alt" style="font-size:12px;"></i> Resume
+        </a>
+
+      </div>
+
+      <div class="social-row fade-up">
+        <a href="https://instagram.com/gilang.ef.s" target="_blank" class="social-link" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://github.com/https3231" target="_blank" class="social-link" title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://facebook.com/Gilang%20Ferdian%20Saputra" target="_blank" class="social-link" title="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://linkedin.com/in/gilangfs" target="_blank" class="social-link" title="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section>
+      <p class="section-label fade-up">— Keahlian</p>
+      <h2 class="section-title fade-up">Skills</h2>
+      <div class="divider fade-up"></div>
+      <div class="skills-grid fade-up">
+        <div class="skill-chip">Administrasi</div>
+        <div class="skill-chip">Data Entry</div>
+        <div class="skill-chip">Microsoft Excel</div>
+        <div class="skill-chip">Microsoft Word</div>
+        <div class="skill-chip">Data Support</div>
+        <div class="skill-chip">Dokumentasi</div>
+        <div class="skill-chip">Spreadsheet</div>
+        <div class="skill-chip">Komunikasi</div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer-line fade-up">
+      © 2025 Gilang Ferdian Saputra &nbsp;·&nbsp; Bekasi, Indonesia
+    </div>
+
+  </main>
 </div>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
